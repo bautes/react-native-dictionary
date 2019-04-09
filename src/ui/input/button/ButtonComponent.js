@@ -6,24 +6,17 @@ import { font, button } from 'styles';
 const buttonStyle = StyleSheet.create({
   default: {
     ...font.button,
-    ...button.default
+    ...button.default,
+    flex: 10
   }
 })
 
 class ButtonComponent extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
-  onClick() {
-    this.props.onClick()
-  }
-
   render() {
     return (
       <Button
-        onPress={this.onClick}
+        onPress={this.props.onClick}
         title="Translate"
         style={buttonStyle.default}
       />
@@ -32,7 +25,7 @@ class ButtonComponent extends Component {
 }
 
 ButtonComponent.propTypes = {
-  chilren: PropTypes.any
+  onClick: PropTypes.func
 }
 
 export default ButtonComponent

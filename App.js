@@ -1,9 +1,32 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { layout } from 'styles';
-import { Header, LanguageBar, TranslateBox } from 'views';
+import { Header, LanguageBar, TextEntryAndCTA, Translation } from 'views';
+import { defineOrTranslate } from 'services/translateService'
 
 export default class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      translation: {},
+      langPair: 'en-ru'
+    }
+  }
+
+  changeLanguages(langPair) {
+    this.setState({langPair})
+  }
+
+  whenTranslate(text) {
+    defineOrTranslate(
+      text,
+      this.state.langPair,
+      response => this.setState({translation: response}),
+      error => console.log(error)
+    )
+  }
+
   render() {
     return (
       <View style={layout.root}>
@@ -11,13 +34,13 @@ export default class App extends React.Component {
           <Header />
         </View>
         <View style={layout.menu}>
-          <LanguageBar />
+          <LanguageBar onLanguageChange={langPair => this.changeLanguages(langPair)} />
         </View>
         <View style={layout.textIntro}>
-          <TranslateBox onTranslate={textTranslated => console.log(textTranslated)} />
+          <TextEntryAndCTA onTranslate={text => this.whenTranslate(text)} />
         </View>
         <View style={layout.textResults}>
-
+          <Translation translations={this.state.translation} />
         </View>
       </View>
     );

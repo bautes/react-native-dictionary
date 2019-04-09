@@ -1,13 +1,14 @@
 import React, {Component, Fragment} from 'react';
+import { View } from 'react-native';
 import PropTypes from 'prop-types'
-import { Textarea, Button } from 'ui';
+import { Textarea, Button } from 'ui'
 
-class TranslateBoxComponent extends Component {
+class TextEntryAndCTA extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      text: ''
     }
   }
 
@@ -16,21 +17,21 @@ class TranslateBoxComponent extends Component {
   }
 
   translateText() {
-    this.props.onTranslate('text has been translated')
+    this.props.onTranslate(this.state.text)
   }
 
   render() {
     return (
       <Fragment>
-        <Textarea initialValue="" onChange={text => this.updateText(text)} />
         <Button onClick={() => this.translateText()} />
+        <Textarea initialValue="" onChange={text => this.updateText(text)} />
       </Fragment>
     )
   }
 }
 
-TranslateBoxComponent.propTypes = {
+TextEntryAndCTA.propTypes = {
   onTranslate: PropTypes.func
 }
 
-export default TranslateBoxComponent
+export default TextEntryAndCTA
