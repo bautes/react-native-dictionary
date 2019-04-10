@@ -11,14 +11,15 @@ export const ATTRIBUTE_MAP = {
     translate: item => map(get(item, 'tr', []), 'text'),
   }),
   YANDEX_DICTIONARY_TR_RESPONSE: toPairs({
-    text: 'text',
+    translation: 'text',
+    gender: 'gen',
+    grammar: 'pos',
     synonyms: item => map(get(item, 'syn', []), 'text'),
     meanings: item => map(get(item, 'mean', []), 'text'),
     examples: item => mapAttributes(ATTRIBUTE_MAP.YANDEX_DICTIONARY_EX_RESPONSE)(get(item, 'ex', []))
   }),
   YANDEX_DICTIONARY_ROOT_RESPONSE: toPairs({
-    text: 'text',
-    grammar: 'pos',
+    original: 'text',
     pronounce: 'ts',
     translations: item => mapAttributes(ATTRIBUTE_MAP.YANDEX_DICTIONARY_TR_RESPONSE)(get(item, 'tr', [])),
   })

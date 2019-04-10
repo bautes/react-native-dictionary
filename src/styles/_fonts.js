@@ -3,8 +3,8 @@ import { centerText } from './_misc'
 
 export const fonts = {
   paragraph: {
-    ...centerText,
-    color: BLACK
+    color: BLACK,
+    fontSize: 20
   },
   title: {
     ...centerText,
@@ -15,6 +15,18 @@ export const fonts = {
     ...centerText,
     height: 'auto',
     color: BLACK
+  },
+  inline: {
+    flexDirection: 'column'
+  },
+  small: {
+    fontSize: 12
+  },
+  bold: {
+    fontWeight: 'bold'
+  },
+  italic: {
+    fontStyle: 'italic'
   }
 }
 

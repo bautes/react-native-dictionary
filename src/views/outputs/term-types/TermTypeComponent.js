@@ -6,9 +6,13 @@ class TermTypeComponent extends Component {
 
   render() {
     return (
-      <Text>text</Text>
+      <Text>{this.props.termDescription}</Text>
     )
   }
+}
+
+TermTypeComponent.propTypes = {
+  termDescription: PropTypes.string
 }
 
 export default TermTypeComponent

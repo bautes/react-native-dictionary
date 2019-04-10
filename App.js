@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { layout } from 'styles';
-import { Header, LanguageBar, TextEntryAndCTA } from 'views';
+import { Header, LanguageBar, TextEntryAndCTA, Translation } from 'views';
 import { defineOrTranslate } from 'services/translateService'
 
 export default class App extends React.Component {
@@ -9,7 +9,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      translation: {},
+      translations: [],
       langPair: 'en-ru'
     }
   }
@@ -22,7 +22,7 @@ export default class App extends React.Component {
     defineOrTranslate(
       text,
       this.state.langPair,
-      response => this.setState({translation: response}),
+      response => this.setState({translations: response}),
       error => console.log(error)
     )
   }
@@ -40,6 +40,7 @@ export default class App extends React.Component {
           <TextEntryAndCTA onTranslate={text => this.whenTranslate(text)} />
         </View>
         <View style={layout.textResults}>
+          <Translation translations={this.state.translations} />
         </View>
       </View>
     );
