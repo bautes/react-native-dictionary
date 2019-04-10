@@ -2,22 +2,6 @@ import { getYandexDictionary, formatYandexDictionaryResponse, formatYandexDictio
 import { getGoogleTranslation } from './google'
 import { isValidString, hasManyWords } from 'utils'
 
-export const ATTRIBUTE_MAP = {
-  YANDEX_DICTIONARY_RESPONSE: toPairs({
-    text: 'def.text',
-    type: 'def.pos',
-    pronounce: 'def.ts',
-    translations: 'def.tr'
-  })
-}
-
-export const mapAttributes = attributesMap => locations => locations.map(
-  item => fromPairs(attributesMap.map(
-    ([keyTarget, keySource]) => [keyTarget, get(item, keySource, '')]
-  ))
-)
-
-
 export const defineOrTranslate = (text, target, successFn, failureFn) => {
   if (!isValidString(text)) return
 
@@ -30,7 +14,7 @@ export const defineOrTranslate = (text, target, successFn, failureFn) => {
 export const defineWord = (text, target, successFn, failureFn) => {
   getYandexDictionary(text, target)
     .then(response => {
-      successFn('YANDEX', formatYandexDictionaryResponse(response))
+      successFn(formatYandexDictionaryResponse(response))
     })
     .catch(error => {
       console.log("error", error)

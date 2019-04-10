@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { layout } from 'styles';
-import { Header, LanguageBar, TextEntryAndCTA, Translation } from 'views';
+import { Header, LanguageBar, TextEntryAndCTA } from 'views';
 import { defineOrTranslate } from 'services/translateService'
 
 export default class App extends React.Component {
@@ -40,7 +40,6 @@ export default class App extends React.Component {
           <TextEntryAndCTA onTranslate={text => this.whenTranslate(text)} />
         </View>
         <View style={layout.textResults}>
-          <Translation translations={this.state.translation} />
         </View>
       </View>
     );

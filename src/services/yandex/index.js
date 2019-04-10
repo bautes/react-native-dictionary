@@ -1,14 +1,43 @@
 
 import { json2uri } from 'utils'
-import get from 'lodash/get'
+import { fromPairs, toPairs, get, isFunction, isEmpty, compact, map } from 'lodash'
 
 const YANDEX_DICTIONARY = 'dict.1.1.20190407T214906Z.15074c5961319017.82bf9dfcbf66390e1ea267139d45c44eb9337332'
 const YANDEX_TRANSLATOR = 'trnsl.1.1.20190404T133118Z.c4441c3a13095799.3452cf1e2d180a082f436485ed5ca67e861e5dcc'
 
+export const ATTRIBUTE_MAP = {
+  YANDEX_DICTIONARY_EX_RESPONSE: toPairs({
+    text: 'text',
+    translate: item => map(get(item, 'tr', []), 'text'),
+  }),
+  YANDEX_DICTIONARY_TR_RESPONSE: toPairs({
+    text: 'text',
+    synonyms: item => map(get(item, 'syn', []), 'text'),
+    meanings: item => map(get(item, 'mean', []), 'text'),
+    examples: item => mapAttributes(ATTRIBUTE_MAP.YANDEX_DICTIONARY_EX_RESPONSE)(get(item, 'ex', []))
+  }),
+  YANDEX_DICTIONARY_ROOT_RESPONSE: toPairs({
+    text: 'text',
+    grammar: 'pos',
+    pronounce: 'ts',
+    translations: item => mapAttributes(ATTRIBUTE_MAP.YANDEX_DICTIONARY_TR_RESPONSE)(get(item, 'tr', [])),
+  })
+}
+
+export const mapAttributes = attributesMap => definitions => definitions.map(
+  item => fromPairs(compact(attributesMap.map(
+    ([keyTarget, keySource]) => {
+      const value = isFunction(keySource) ? keySource(item) : get(item, keySource, '')
+      return isEmpty(value) ? null : [keyTarget, value]
+    })))
+)
+
 export const formatYandexDictionaryResponse = response => {
   const body = get(response, '_bodyInit', {})
-  return JSON.parse(body)
+  const definitions = get(JSON.parse(body), 'def', [])
+  return mapAttributes(ATTRIBUTE_MAP.YANDEX_DICTIONARY_ROOT_RESPONSE)(definitions)
 }
+
 export const formatYandexDictionaryError = response => response
 
 export const getYandexDictionary = (text, target) => {
@@ -18,7 +47,6 @@ export const getYandexDictionary = (text, target) => {
     'lang': target,
   })
   const url = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?${params}`
-  console.log(url)
   return fetch(url, {
     method: 'GET',
     headers: {
@@ -26,6 +54,7 @@ export const getYandexDictionary = (text, target) => {
     }
   })
 }
+
 export const formatYandexTranslationResponse = response => response
 export const formatYandexTranslationError = response => response
 
