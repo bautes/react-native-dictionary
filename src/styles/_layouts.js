@@ -1,17 +1,9 @@
 import { WHITE, BLACK, RED } from './_palette.js'
-import { centerText, leftText } from './_misc'
-
-const border = {
-  borderTopWidth: 1,
-  borderLeftWidth: 1,
-  borderRightWidth: 1,
-  borderBottomWidth: 1
-}
+import { border, centerText, leftText } from './_misc'
 
 const defaultLayout = {
   flex: 1,
-  width: '100%',
-  ...centerText
+  width: '100%'
 }
 
 export const layouts = {
@@ -22,14 +14,13 @@ export const layouts = {
   },
   header: {
     ...defaultLayout,
+    ...centerText,
     ...border,
-    height: 30,
+    height: 25,
     flex: 0,
-    marginTop: 20,
   },
   menu: {
     ...defaultLayout,
-    ...border,
     flexDirection: 'row',
     flex: 0,
     flexShrink: 1,
@@ -37,25 +28,26 @@ export const layouts = {
   },
   textIntro: {
     ...defaultLayout,
+    ...leftText,
     flex: 1,
-    height: '50%',
-    ...leftText
   },
   textResults: {
     ...defaultLayout,
-    flex: 1,
-    height: '50%',
+    padding: 10,
+    flex: 4,
   },
   sepparatorLayout: {
     ...defaultLayout,
+    ...centerText,
     flex: 1,
     width: 10,
-    height: 'auto',
     flexShrink: 1,
   },
   languageLayout: {
     ...defaultLayout,
+    ...centerText,
     ...border,
-    height: 50,
+    flex: 1,
+    height: '100%',
   },
 }

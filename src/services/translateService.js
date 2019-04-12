@@ -1,6 +1,8 @@
 import { getYandexDictionary, formatYandexDictionaryResponse, formatYandexDictionaryError, getYandexTranslation, formatYandexTranslationResponse, formatYandexTranslationError } from './yandex'
 import { getGoogleTranslation } from './google'
 import { isValidString, hasManyWords } from 'utils'
+import { noop, sortBy } from 'lodash'
+import { languageList } from './yandex/languages'
 
 export const defineOrTranslate = (text, target, successFn, failureFn) => {
   if (!isValidString(text)) return
@@ -33,3 +35,6 @@ export const translateText = (text, target, successFn, failureFn) => {
       failureFn(formatYandexTranslationError(error))
     })
 }
+
+export const sortLanguages = ([a0, a1, a2 = 2], [b0, b1, b2 = 999]) => (`${a2}${a0}` < `${b2}${b0}` ? -1 : 1)
+export const getLanguagesList = new Promise.resolve(languageList.sort(sortLanguages))

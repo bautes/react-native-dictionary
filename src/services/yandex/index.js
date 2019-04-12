@@ -1,5 +1,5 @@
 
-import { json2uri } from 'utils'
+import { json2uri, grammarMapper } from 'utils'
 import { fromPairs, toPairs, get, isFunction, isEmpty, compact, map } from 'lodash'
 
 const YANDEX_DICTIONARY = 'dict.1.1.20190407T214906Z.15074c5961319017.82bf9dfcbf66390e1ea267139d45c44eb9337332'
@@ -13,7 +13,7 @@ export const ATTRIBUTE_MAP = {
   YANDEX_DICTIONARY_TR_RESPONSE: toPairs({
     translation: 'text',
     gender: 'gen',
-    grammar: 'pos',
+    grammar: item => grammarMapper(get(item, 'pos'), 'YANDEX'),
     synonyms: item => map(get(item, 'syn', []), 'text'),
     meanings: item => map(get(item, 'mean', []), 'text'),
     examples: item => mapAttributes(ATTRIBUTE_MAP.YANDEX_DICTIONARY_EX_RESPONSE)(get(item, 'ex', []))

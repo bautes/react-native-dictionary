@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { layout } from 'styles';
-import { Header, LanguageBar, TextEntryAndCTA, Translation } from 'views';
+import { Header, LanguageBar, TextEntryAndCTA, RenderResults } from 'views';
 import { defineOrTranslate } from 'services/translateService'
 
 export default class App extends React.Component {
@@ -9,8 +9,17 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      translations: [],
-      langPair: 'en-ru'
+      results: [{
+        translations: [{
+          grammar: 'adv',
+          translation: 'test',
+          examples: [{
+            text: 'test 1',
+            translate: ['hola', 'mundo']
+          }]
+        }]
+      }],
+      langPair: 'de-ru'
     }
   }
 
@@ -22,10 +31,11 @@ export default class App extends React.Component {
     defineOrTranslate(
       text,
       this.state.langPair,
-      response => this.setState({translations: response}),
+      response => this.setState({results: response}),
       error => console.log(error)
     )
   }
+
 
   render() {
     return (
@@ -34,13 +44,13 @@ export default class App extends React.Component {
           <Header />
         </View>
         <View style={layout.menu}>
-          <LanguageBar onLanguageChange={langPair => this.changeLanguages(langPair)} />
+          <LanguageBar defaultPair={this.state.langPair} onLanguageChange={langPair => this.changeLanguages(langPair)} />
         </View>
-        <View style={layout.textIntro}>
-          <TextEntryAndCTA onTranslate={text => this.whenTranslate(text)} />
-        </View>
+        <TextEntryAndCTA onTranslate={text => this.whenTranslate(text)} />
         <View style={layout.textResults}>
-          <Translation translations={this.state.translations} />
+          <ScrollView>
+            <RenderResults results={this.state.results} />
+          </ScrollView>
         </View>
       </View>
     );

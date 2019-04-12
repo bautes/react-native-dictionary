@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types'
-import { Textarea, Button } from 'ui'
+import { Expansible, Button } from 'ui'
 
 class TextEntryAndCTA extends Component {
 
@@ -24,7 +24,7 @@ class TextEntryAndCTA extends Component {
     return (
       <Fragment>
         <Button onClick={() => this.translateText()} />
-        <Textarea initialValue="" onChange={text => this.updateText(text)} />
+        <Expansible initialValue="" onChange={text => this.updateText(text)} maxHeight={100} />
       </Fragment>
     )
   }

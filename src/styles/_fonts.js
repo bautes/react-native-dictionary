@@ -1,10 +1,12 @@
 import { WHITE, BLACK, RED } from './_palette.js'
-import { centerText } from './_misc'
+import { centerText, leftText } from './_misc'
 
 export const fonts = {
   paragraph: {
+    ...leftText,
     color: BLACK,
-    fontSize: 20
+    fontSize: 16,
+    width: '100%'
   },
   title: {
     ...centerText,

@@ -12,3 +12,10 @@ export const leftText = {
   alignSelf: 'flex-start',
   textAlign: 'left',
 }
+
+export const border = {
+  borderTopWidth: 1,
+  borderLeftWidth: 1,
+  borderRightWidth: 1,
+  borderBottomWidth: 1
+}
