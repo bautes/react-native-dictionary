@@ -1,5 +1,6 @@
 import { getYandexDictionary, formatYandexDictionaryResponse, formatYandexDictionaryError, getYandexTranslation, formatYandexTranslationResponse, formatYandexTranslationError } from './yandex'
 import { getGoogleTranslation } from './google'
+import { getAnthonyms } from './wordsapi'
 import { isValidString, hasManyWords } from 'utils'
 import { noop, sortBy } from 'lodash'
 import { languageList } from './yandex/languages'
@@ -13,11 +14,14 @@ export const defineOrTranslate = (text, target, successFn, failureFn) => {
     defineWord(text, target, successFn, failureFn)
 }
 
-export const defineWord = (text, target, successFn, failureFn) => {
-  getYandexDictionary(text, target)
+export const defineWord = (word, from, to, successFn, failureFn) => {
+  let getAnthonymsFn = getAnthonyms(to)
+  return getYandexDictionary(word, [from, to].join('-'))
     .then(response => {
       successFn(formatYandexDictionaryResponse(response))
     })
+    .then(() => getAnthonymsFn(word))
+    .then(results => console.log("here", results))
     .catch(error => {
       console.log("error", error)
       failureFn(formatYandexDictionaryError(error))

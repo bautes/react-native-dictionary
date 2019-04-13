@@ -23,7 +23,7 @@ class TextEntryAndCTA extends Component {
   render() {
     return (
       <Fragment>
-        <Button onClick={() => this.translateText()} />
+        <Button onClick={() => this.translateText()} title="Translate" />
         <Expansible initialValue="" onChange={text => this.updateText(text)} maxHeight={100} />
       </Fragment>
     )

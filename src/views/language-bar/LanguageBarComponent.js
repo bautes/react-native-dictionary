@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react'
 import PropTypes from 'prop-types'
 import { layout } from 'styles'
 import { View, Text } from 'react-native'
-import { Title } from 'ui'
 import { findIndex } from 'lodash'
 import { default as LanguageList } from './LanguageListComponent'
 import { getLanguagesList } from 'services/translateService'
@@ -16,12 +15,11 @@ class LanguageBarComponent extends Component {
       langPair: this.props.defaultPair
     }
     getLanguagesList
-      .then(languagesList => this.initDefaultPair(languagesList))
+      .then(languagesList => this.initDefaultPair(languagesList, this.state.langPair))
       .then(languagesList => this.setState({languagesList}))
   }
 
-  initDefaultPair(languages) {
-    const [from, to] = this.props.defaultPair.split("-")
+  initDefaultPair(languages, [from, to]) {
     const from_to = {
       from: (findIndex(languages, ['1', from]) > 0 ? from : null),
       to: (findIndex(languages, ['1', to]) > 0 ? to : null)
@@ -52,6 +50,10 @@ class LanguageBarComponent extends Component {
       </Fragment>
     )
   }
+}
+
+LanguageBarComponent.propTypes = {
+  defaultPair: PropTypes.array
 }
 
 export default LanguageBarComponent

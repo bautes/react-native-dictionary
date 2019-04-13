@@ -19,18 +19,22 @@ export default class App extends React.Component {
           }]
         }]
       }],
-      langPair: 'de-ru'
+      from: 'de',
+      to: 'en'
     }
   }
 
   changeLanguages(langPair) {
-    this.setState({langPair})
+    let [from, to] = langPair.split('-')
+    this.setState({from, to})
   }
 
   whenTranslate(text) {
+    let {from, to} = this.state
     defineOrTranslate(
       text,
-      this.state.langPair,
+      from,
+      to,
       response => this.setState({results: response}),
       error => console.log(error)
     )
@@ -38,13 +42,14 @@ export default class App extends React.Component {
 
 
   render() {
+    let {from, to} = this.state
     return (
       <View style={layout.root}>
         <View style={layout.header}>
           <Header />
         </View>
         <View style={layout.menu}>
-          <LanguageBar defaultPair={this.state.langPair} onLanguageChange={langPair => this.changeLanguages(langPair)} />
+          <LanguageBar defaultPair={[from, to]} onLanguageChange={langPair => this.changeLanguages(langPair)} />
         </View>
         <TextEntryAndCTA onTranslate={text => this.whenTranslate(text)} />
         <View style={layout.textResults}>

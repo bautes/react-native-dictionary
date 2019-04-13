@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
-import { Title } from 'ui';
+import { H1 } from 'ui/tags';
 
 class HeaderComponent extends Component {
 
   render() {
     return (
-      <Title>Translator App</Title>
+      <H1>Translator App</H1>
     )
   }
 }

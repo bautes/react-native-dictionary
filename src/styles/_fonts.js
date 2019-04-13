@@ -8,7 +8,7 @@ export const fonts = {
     fontSize: 16,
     width: '100%'
   },
-  title: {
+  h1: {
     ...centerText,
     height: 'auto',
     color: BLACK
@@ -30,9 +30,4 @@ export const fonts = {
   italic: {
     fontStyle: 'italic'
   }
-}
-
-export const H1 = {
-  ...fonts.title,
-  fontSize: '14px'
 }
